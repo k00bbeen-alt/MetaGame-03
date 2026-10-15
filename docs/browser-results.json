@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "width": 600,
+      "height": 600,
+      "fullyVisible": 7,
+      "intersecting": 7,
+      "passed": true
+    },
+    {
+      "width": 600,
+      "height": 500,
+      "fullyVisible": 7,
+      "intersecting": 7,
+      "passed": true
+    },
+    {
+      "width": 500,
+      "height": 600,
+      "fullyVisible": 7,
+      "intersecting": 7,
+      "passed": true
+    }
+  ],
+  "errors": []
+}

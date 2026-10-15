@@ -1,21 +1,7 @@
-:root {
-  font-family: system-ui, sans-serif;
-  color: #fff;
-  background: #000;
-  color-scheme: dark;
-}
+html, body, #root { margin: 0; inline-size: 100%; block-size: 100%; background: var(--uit-color-background-window); }
+* { box-sizing: border-box; }
+.swatch { inline-size: 100%; block-size: 100%; }
+.color-info, .interaction-hints, .exit-state { padding-inline: var(--uit-spacing-large); padding-block: var(--uit-spacing-large); min-inline-size: 0; text-align: center; }
+.color-info { display: grid; gap: var(--uit-spacing-small); }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-}
-
-main {
-  padding: 24px;
-  text-align: center;
-}
-
-h1 { font-size: 32px; }
-p { font-size: 18px; }
+.palette-content { padding-inline: var(--uit-spacing-large); min-inline-size: 0; }
