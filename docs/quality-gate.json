@@ -1,0 +1,20 @@
+{
+  "app": "MetaGame-03",
+  "passed": true,
+  "bundleGzipBytes": 3846,
+  "browser": {
+    "url": "http://127.0.0.1:58964",
+    "requests": 3,
+    "loadMs": 45,
+    "heapBytes": 3247208,
+    "fps": 62.3,
+    "focusableCount": 1,
+    "screenshots": [
+      "/Users/doubleme/Documents/MetaGame-03/.wearables-test/normal.png",
+      "/Users/doubleme/Documents/MetaGame-03/.wearables-test/additive-composite.png"
+    ],
+    "browserName": "chromium-cdp"
+  },
+  "warnings": [],
+  "failures": []
+}

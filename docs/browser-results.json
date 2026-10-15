@@ -1,26 +1,44 @@
 {
+  "url": "http://127.0.0.1:4174/",
   "results": [
     {
       "width": 600,
       "height": 600,
-      "fullyVisible": 7,
-      "intersecting": 7,
-      "passed": true
+      "passed": true,
+      "sevenCardsDuringMotionFrames": 121,
+      "textScale": 200,
+      "scenes": [
+        "start",
+        "carousel",
+        "ending"
+      ]
     },
     {
       "width": 600,
       "height": 500,
-      "fullyVisible": 7,
-      "intersecting": 7,
-      "passed": true
+      "passed": true,
+      "sevenCardsDuringMotionFrames": 121,
+      "textScale": 200,
+      "scenes": [
+        "start",
+        "carousel",
+        "ending"
+      ]
     },
     {
       "width": 500,
       "height": 600,
-      "fullyVisible": 7,
-      "intersecting": 7,
-      "passed": true
+      "passed": true,
+      "sevenCardsDuringMotionFrames": 122,
+      "textScale": 200,
+      "scenes": [
+        "start",
+        "carousel",
+        "ending"
+      ]
     }
   ],
+  "fullCycle": true,
+  "backgroundCancellation": true,
   "errors": []
 }

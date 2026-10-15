@@ -12,7 +12,6 @@
     "noEmit": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "jsx": "react-jsx",
     "allowImportingTsExtensions": true
   },
   "include": [
