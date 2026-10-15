@@ -27,7 +27,7 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
   transform: translate(-50%, -50%) translate(var(--x), var(--y)) rotate(var(--rotation)) scale(var(--scale));
   transition: transform 300ms cubic-bezier(.22,.7,.25,1); outline: none; }
 .color-card:disabled { cursor: default; }
-.card-surface { position: absolute; inset: 0; border-radius: inherit; background: var(--swatch);
+.card-surface { position: absolute; inset: 0; border-radius: inherit; background: var(--swatch); transition: background-color 180ms ease;
   box-shadow: 0 1.6cqw 4cqw 1.2cqw rgb(0 0 0 / 68%), 0 .4cqw 1.4cqw .5cqw rgb(0 0 0 / 48%), inset 0 .12cqw 0 rgb(255 255 255 / 18%); }
 .is-selected .card-surface { outline: .45cqw solid #fff; outline-offset: 1.1cqw; }
 .color-card:focus-visible .card-surface { outline: .35cqw solid #fff; outline-offset: 2cqw; }
@@ -49,3 +49,5 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
 .ending-title { font-size: 1.3rem; font-weight: 450; margin: 0; line-height: 1.4; }
 .ending-color { font: .75rem/1.4 ui-monospace, SFMono-Regular, Consolas, monospace; color: #a5a8b2; margin: 0; overflow-wrap: anywhere; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.interaction-hints > [hidden] { display: none; }

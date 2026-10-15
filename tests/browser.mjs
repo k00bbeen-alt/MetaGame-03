@@ -46,14 +46,17 @@ try {
   await textFits();await screenshot(`${width}x${height}-start`);
   // Held key stays one activation across the state transition.
   await page.keyboard.down('Enter');await settle();await page.keyboard.down('Enter');await page.keyboard.up('Enter');await phase('carousel');
+  await page.keyboard.press('ArrowUp');assert.equal(await page.locator('.hex').textContent(),'#FF0000');
   assert.equal(await page.locator('.selection-label.has-selection').count(),0);await current('Red');await seven();await screenshot(`${width}x${height}-carousel`);
   await page.keyboard.press('Enter');assert.equal(await page.locator('.color-card.is-selected').count(),1);await page.keyboard.press('Enter');assert.equal(await page.locator('.color-card.is-selected').count(),1);
-  await page.keyboard.press('ArrowLeft');const motion=await sampleMotion(360);assert.deepEqual(motion.failures,[]);await current('Rose');await seven();await selected('Red');
+  await page.keyboard.down('ArrowUp');await page.keyboard.down('ArrowUp');await page.keyboard.up('ArrowUp');assert.equal(await page.locator('.hex').textContent(),'#FF1A1A');
+  await page.keyboard.press('ArrowLeft');const motion=await sampleMotion(360);assert.deepEqual(motion.failures,[]);await current('Rose');await seven();await selected('Red');assert.equal(await page.locator('.color-card[data-color-id=red]').evaluate(e=>e.style.getPropertyValue('--swatch')),'#FF1A1A');assert.equal(await page.locator('.hex').textContent(),'#FF0049');
   await page.keyboard.press('ArrowRight');await page.waitForTimeout(330);await current('Red');await seven();
   for(let i=0;i<5;i++)await page.keyboard.press('ArrowRight');const rapid=await sampleMotion(1600);assert.deepEqual(rapid.failures,[]);await current('Lime');await seven();
   await page.locator('.color-card[data-slot="0"]').click();assert.equal(await page.locator('.color-card.is-selected').getAttribute('data-color-id'),'lime');
+  assert.equal(await page.locator('.hex').textContent(),'#92FF00');await page.keyboard.press('ArrowUp');await page.keyboard.press('ArrowUp');assert.equal(await page.locator('.hex').textContent(),'#A8FF33');
   await page.keyboard.press('ArrowDown');await phase('ending');await page.keyboard.press('Enter');await phase('ending');await settle();await textFits();await screenshot(`${width}x${height}-ending`);
-  assert.ok((await page.locator('.ending-color').textContent()).includes('Lime'));
+  assert.equal(await page.locator('.ending-color').textContent(),'Lime · #A8FF33');
   await page.keyboard.press('Enter');await phase('start');await settle();
   // Space starts; a touch elsewhere on the screen also starts after returning.
   await page.keyboard.press(' ');await phase('carousel');await settle();await page.keyboard.press('Escape');await settle();

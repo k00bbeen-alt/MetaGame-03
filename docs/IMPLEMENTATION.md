@@ -39,6 +39,12 @@
 
 중앙만 활성 포커스/선택 대상이다. 선택된 색의 윤곽·체크·텍스트를 표시한다. 같은 색을 다시 선택해도 해제되지 않으며, 다른 색 선택으로 교체된다. 선택과 현재 탐색 위치는 화면을 왕복해도 유지한다. `prefers-reduced-motion`에서는 CSS 모션을 생략한다.
 
+## 선택 색상 명도 조절
+
+carousel에서 색상을 선택한 뒤 ↑를 누르면 선택된 색의 HSL 명도가5%p씩 증가한다. 최초21색은L50%이므로10단계에서흰색으로 포화된다. 선택이 없거나start/ending 상태면 동작하지 않는다. held/repeat 입력은 한 번만 처리된다. 탐색 위치와 별개로 선택한 색을 조정하고, 같은 색 재선택/화면 왕복 시 유지하며 새 색 선택 시0단계로 초기화한다.
+
+원본palette는 수정하지 않는다. `src/color.ts`가 원본HEX와 단계로 표시색을 계산해 누적 RGB 반올림 오차를 피한다. 카드 배경/접근성 이름/중앙HEX/종료 스와치와HEX에 동일하게 반영한다. 선택 후에만 ↑ 명도 안내를 표시한다. 테스트는색조 보존, 흰색 상한, 원본 불변, 선택/상태별 입력, 유지/초기화, 반복 키와 브라우저 표시를 포함한다.
+
 ## 시작·종료 화면과 상태
 
 앱 상태는 `start`, `carousel`, `ending`으로 구분한다.
@@ -54,6 +60,7 @@
 | start | 화면 터치·클릭, Enter, Space | carousel 진입 |
 | carousel | ← / → | 한 색씩 이동, 입력 대기열로 순서 보존 |
 | carousel | Enter / 중앙 카드 터치·클릭 | 현재 색상 선택 |
+| carousel | ↑ | 선택된 색상 명도5%p 증가 |
 | carousel | ↓ / Escape / 내부 종료 요청 | ending 진입, 이동 대기열·타이머 취소 |
 | ending | 화면 터치·클릭 / Enter | start로 복귀 |
 | ending | 방향키 / Space | 상태 변경 없음 |
@@ -82,11 +89,11 @@
 ## 최종 검증
 
 - `npm run typecheck`: 통과.
-- `npm test`:9개 통과.21색·7이웃, Figma geometry,3상태 전환 잠금, 양방향 순환/65회 입력, 선택 유지·교체, 중복 종료, 타이머·구독·리스너·생명주기 정리.
-- `npm run build`: 통과. 런타임 React/Toolkit 없이13모듈, JS 약9.91KB(압축3.85KB), CSS 약4.33KB(압축1.62KB).
+- `npm test`:12개 통과.21색·7이웃, Figma geometry,3상태 전환 잠금, 양방향 순환/65회 입력, 선택 유지·교체, 중복 종료, 타이머·구독·리스너·생명주기 정리.
+- `npm run build`: 통과. 런타임 React/Toolkit 없이14모듈, JS 약10.99KB(압축4.20KB), CSS 약4.41KB(압축1.63KB).
 - `tests/browser.mjs`:600×600/600×500/500×600, 세 화면의 일반/200% 텍스트, held Enter/Space, 클릭·터치, 중앙 선택, 빠른 입력, 모든21개 위치, 양방향 경계, reduced motion, 배경 진입 취소를 검증했다.
 - 이동 중 animation frame마다7개 카드의 DOM 개수·불투명도·화면 내 bounds와 hit testing을 통한 노출 영역을 검사했다. 정지 화면에서는4:6 비율·중앙 z-index10·중앙 하나만 활성인 것도 검사했다.
-- 공식 `check-webapp.mjs`: **통과**, warnings0/failures0. 공식 custom-explicit-opt-out 프로필, Chrome CDP, 요청3개, 호스트 로드45ms/힙약3.25MB. 이 값은 로컬 호스트 수치이며 기기 성능 증명이 아니다.
+- 공식 `check-webapp.mjs`: **통과**, warnings0/failures0. 공식 custom-explicit-opt-out 프로필, Chrome CDP, 요청3개, 호스트 로드84ms/힙약3.25MB. 이 값은 로컬 호스트 수치이며 기기 성능 증명이 아니다.
 - 생성 스크린샷은 `.wearables-test/`에 보관한다. 개발 서버/프로덕션 미리보기 검증 결과는 `docs/browser-results.json`, 전체 게이트 결과는 `docs/quality-gate.json`에 기록한다.
 
 실제 Glass/Android WebView는 아직 미검증이다. 다음 기기 테스트는 D-pad/Select/EMG 단일 입력과 지연, rounded font fallback, 밝은 실제 배경에서의 additive 대비, 실제 시스템 텍스트 확대, 화면 가장자리 윤곽, 중단/복귀, host Back·종료 동작이다. 외부 배포와 GitHub remote 연결은 하지 않았다.

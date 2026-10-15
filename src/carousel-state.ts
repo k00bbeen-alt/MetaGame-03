@@ -3,11 +3,11 @@ export const MOTION_MS = 300;
 export const SCENE_MS = 180;
 export type Phase = 'start' | 'carousel' | 'ending';
 export type Snapshot = Readonly<{
-  phase: Phase; currentIndex: number; selectedId: string | null;
+  phase: Phase; currentIndex: number; selectedId: string | null; lightnessSteps: number;
   animating: boolean; transitioning: boolean;
 }>;
 export class CarouselState {
-  private snapshot: Snapshot = {phase: 'start', currentIndex: 0, selectedId: null, animating: false, transitioning: false};
+  private snapshot: Snapshot = {phase: 'start', currentIndex: 0, selectedId: null, lightnessSteps: 0, animating: false, transitioning: false};
   private queue: (-1 | 1)[] = [];
   private motionTimer: ReturnType<typeof setTimeout> | null = null;
   private sceneTimer: ReturnType<typeof setTimeout> | null = null;
@@ -49,7 +49,11 @@ export class CarouselState {
   }
   select = (id: string) => {
     if (this.snapshot.phase === 'carousel' && !this.snapshot.transitioning && !this.disposed && this.snapshot.selectedId !== id)
-      this.update({selectedId: id});
+      this.update({selectedId: id, lightnessSteps: 0});
+  };
+  lighten = () => {
+    if (this.disposed || this.snapshot.phase !== 'carousel' || this.snapshot.transitioning || !this.snapshot.selectedId || this.snapshot.lightnessSteps >= 10) return;
+    this.update({lightnessSteps: this.snapshot.lightnessSteps + 1});
   };
   exit = () => {
     if (this.disposed || this.snapshot.phase !== 'carousel' || this.snapshot.transitioning) return;

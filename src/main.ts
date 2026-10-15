@@ -1,4 +1,5 @@
 import {palette} from './palette';
+import {displayColor} from './color';
 import {CarouselState, type Phase} from './carousel-state';
 import {visibleIndices} from './circular';
 import {attachKeyboard} from './input';
@@ -23,7 +24,7 @@ export function mountPalette(root: HTMLElement): () => void {
     const bounds = frame.getBoundingClientRect();
     visibleIndices(snapshot.currentIndex, palette.length).forEach((index, slot) => {
       const color = palette[index]; const card = cards.get(color.id);
-      if (card) updateColorCard(card, color, slot - 3, color.id === snapshot.selectedId, bounds.width, bounds.height);
+      if (card) updateColorCard(card, displayColor(color, snapshot.selectedId, snapshot.lightnessSteps), slot - 3, color.id === snapshot.selectedId, bounds.width, bounds.height);
     });
   }
   function render() {
@@ -42,7 +43,8 @@ export function mountPalette(root: HTMLElement): () => void {
           <span class="ending-content"><span class="ending-brand">21 <span>color card</span></span>
           <span class="ending-swatch" aria-hidden="true"></span><span class="ending-title">색을 담아두었어요</span>
           <span class="ending-color"></span></span><span class="screen-cue">터치 또는 Enter로 처음으로</span></button>`;
-        const selected = palette.find(color => color.id === snapshot.selectedId);
+        const source = palette.find(color => color.id === snapshot.selectedId);
+        const selected = source && displayColor(source, snapshot.selectedId, snapshot.lightnessSteps);
         const swatch = root.querySelector<HTMLElement>('.ending-swatch')!;
         if (selected) {
           swatch.style.backgroundColor = selected.hex;
@@ -57,7 +59,7 @@ export function mountPalette(root: HTMLElement): () => void {
           <header class="eyebrow"><span aria-hidden="true">•</span> COLOR PALETTE</header>
           <div class="arch" role="group" aria-label="색상 캐러셀"></div>
           <div class="color-info" aria-live="polite" aria-atomic="true"><h1></h1><p class="hex"></p><p class="selection-label"></p></div>
-          <footer class="interaction-hints"><span><span aria-hidden="true">← →</span> 탐색</span><span><span aria-hidden="true">↵</span> 선택</span></footer></section>`;
+          <footer class="interaction-hints"><span><span aria-hidden="true">← →</span> 탐색</span><span><span aria-hidden="true">↵</span> 선택</span><span class="lightness-hint" hidden><span aria-hidden="true">↑</span> 명도</span></footer></section>`;
         frame = root.querySelector<HTMLElement>('.arch')!;
         observer.observe(frame);
       }
@@ -73,13 +75,15 @@ export function mountPalette(root: HTMLElement): () => void {
         const slot = visible.indexOf(color) - 3;
         const initialSlot = lastIndex >= 0 && Math.abs(slot) === 3 ? Math.sign(slot) * 4 : slot;
         const bounds = frame!.getBoundingClientRect();
-        updateColorCard(card, color, initialSlot, color.id === snapshot.selectedId, bounds.width, bounds.height);
+        updateColorCard(card, displayColor(color, snapshot.selectedId, snapshot.lightnessSteps), initialSlot, color.id === snapshot.selectedId, bounds.width, bounds.height);
         cards.set(color.id, card); frame!.append(card);
         // Establish one incoming card's safe initial geometry before its CSS transition.
         if (lastIndex >= 0) card.getBoundingClientRect();
       }
     }
-    renderSelection(root.querySelector('.color-info')!, palette[snapshot.currentIndex], palette.find(color => color.id === snapshot.selectedId));
+    const selected = palette.find(color => color.id === snapshot.selectedId);
+    renderSelection(root.querySelector('.color-info')!, displayColor(palette[snapshot.currentIndex], snapshot.selectedId, snapshot.lightnessSteps), selected && displayColor(selected, snapshot.selectedId, snapshot.lightnessSteps));
+    root.querySelector<HTMLElement>('.lightness-hint')!.hidden = !selected;
     layoutCards();
     if (lastIndex !== snapshot.currentIndex) {
       cards.get(palette[snapshot.currentIndex].id)!.focus({preventScroll: true});
@@ -93,7 +97,7 @@ export function mountPalette(root: HTMLElement): () => void {
     else if (snapshot.phase === 'carousel' && event.target.closest('.color-card[data-slot="0"]')) activate();
   };
   document.addEventListener('click', click);
-  const detachKeyboard = attachKeyboard(window, {phase: () => state.getSnapshot().phase, move: state.move, activate, exit: () => requestExit(state)});
+  const detachKeyboard = attachKeyboard(window, {phase: () => state.getSnapshot().phase, move: state.move, activate, lighten: state.lighten, exit: () => requestExit(state)});
   const detachLifecycle = attachLifecycle(document, window, state.cancel);
   const unsubscribe = state.subscribe(render);
   render();

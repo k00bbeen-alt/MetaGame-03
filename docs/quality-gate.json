@@ -1,13 +1,13 @@
 {
   "app": "MetaGame-03",
   "passed": true,
-  "bundleGzipBytes": 3846,
+  "bundleGzipBytes": 4201,
   "browser": {
-    "url": "http://127.0.0.1:58964",
+    "url": "http://127.0.0.1:59774",
     "requests": 3,
-    "loadMs": 45,
-    "heapBytes": 3247208,
-    "fps": 62.3,
+    "loadMs": 84,
+    "heapBytes": 3252811,
+    "fps": 62.5,
     "focusableCount": 1,
     "screenshots": [
       "/Users/doubleme/Documents/MetaGame-03/.wearables-test/normal.png",

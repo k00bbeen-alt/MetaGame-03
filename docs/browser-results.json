@@ -5,7 +5,7 @@
       "width": 600,
       "height": 600,
       "passed": true,
-      "sevenCardsDuringMotionFrames": 121,
+      "sevenCardsDuringMotionFrames": 122,
       "textScale": 200,
       "scenes": [
         "start",
@@ -29,7 +29,7 @@
       "width": 500,
       "height": 600,
       "passed": true,
-      "sevenCardsDuringMotionFrames": 122,
+      "sevenCardsDuringMotionFrames": 121,
       "textScale": 200,
       "scenes": [
         "start",

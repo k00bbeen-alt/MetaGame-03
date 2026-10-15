@@ -10,6 +10,7 @@ export function createColorCard(color: PaletteColor): HTMLButtonElement {
 }
 export function updateColorCard(button: HTMLButtonElement, color: PaletteColor, slot: number, selected: boolean, width: number, height: number) {
   const geometry = archLayout(slot, width, height);
+  button.style.setProperty('--swatch', color.hex);
   button.style.width = `${geometry.width}px`;
   button.style.top = `${geometry.centerY}px`;
   button.style.setProperty('--x', `${geometry.x}px`);

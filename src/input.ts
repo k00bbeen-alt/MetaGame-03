@@ -1,7 +1,7 @@
 import type {Phase} from './carousel-state';
 export type PaletteCommands = {
   phase: () => Phase; move: (direction: -1 | 1) => void;
-  activate: () => void; exit: () => void;
+  activate: () => void; lighten: () => void; exit: () => void;
 };
 // Standard DOM keyboard adapter. No guessed Meta SDK or proprietary events.
 // TODO(glasses): validate actual host D-pad/Select delivery on hardware.
@@ -9,7 +9,7 @@ export function attachKeyboard(target: Window, commands: PaletteCommands): () =>
   const held = new Set<string>();
   const keydown = (event: KeyboardEvent) => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) return;
-    if (!['ArrowLeft', 'ArrowRight', 'Enter', ' ', 'ArrowDown', 'Escape'].includes(event.key)) return;
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'Enter', ' ', 'ArrowDown', 'Escape'].includes(event.key)) return;
     // Let native semantic buttons emit their one activation click. Repeated or
     // held keys are cancelled even if the first click mounted another screen.
     if (event.repeat || held.has(event.key)) {event.preventDefault(); return;}
@@ -25,6 +25,7 @@ export function attachKeyboard(target: Window, commands: PaletteCommands): () =>
     if (event.key === 'ArrowLeft') commands.move(-1);
     if (event.key === 'ArrowRight') commands.move(1);
     if (event.key === 'Enter') commands.activate();
+    if (event.key === 'ArrowUp') commands.lighten();
     if (event.key === 'ArrowDown' || event.key === 'Escape') commands.exit();
   };
   const keyup = (event: KeyboardEvent) => {held.delete(event.key);};
