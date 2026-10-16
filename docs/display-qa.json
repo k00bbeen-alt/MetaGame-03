@@ -1,0 +1,73 @@
+{
+  "url": "http://127.0.0.1:5175/",
+  "viewport": "width=600, height=600, initial-scale=1.0",
+  "results": [
+    {
+      "scene": "start",
+      "scale": 100,
+      "minimumFontPx": 18,
+      "passed": true
+    },
+    {
+      "scene": "carousel",
+      "scale": 100,
+      "minimumFontPx": 18,
+      "passed": true
+    },
+    {
+      "scene": "selected",
+      "scale": 100,
+      "minimumFontPx": 18,
+      "passed": true
+    },
+    {
+      "scene": "selected-at-edge",
+      "scale": 100,
+      "minimumFontPx": 18,
+      "passed": true
+    },
+    {
+      "scene": "ending",
+      "scale": 100,
+      "minimumFontPx": 18,
+      "passed": true
+    },
+    {
+      "scene": "start",
+      "scale": 200,
+      "minimumFontPx": 36,
+      "passed": true
+    },
+    {
+      "scene": "carousel",
+      "scale": 200,
+      "minimumFontPx": 36,
+      "passed": true
+    },
+    {
+      "scene": "selected",
+      "scale": 200,
+      "minimumFontPx": 36,
+      "passed": true
+    },
+    {
+      "scene": "selected-at-edge",
+      "scale": 200,
+      "minimumFontPx": 36,
+      "passed": true
+    },
+    {
+      "scene": "ending",
+      "scale": 200,
+      "minimumFontPx": 36,
+      "passed": true
+    },
+    {
+      "scene": "desktop-fixed-stage",
+      "scale": 100,
+      "minimumFontPx": 18,
+      "passed": true
+    }
+  ],
+  "errors": []
+}

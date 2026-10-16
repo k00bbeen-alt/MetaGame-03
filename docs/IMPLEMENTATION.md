@@ -125,3 +125,11 @@ carousel에서 색상을 선택한 뒤 ↑를 누르면 선택된 색의 HSL 명
 | fuchsia | Fuchsia | #FF00DB |
 | pink | Pink | #FF0092 |
 | rose | Rose | #FF0049 |
+
+## Display extension QA remediation
+
+The document has exactly one viewport meta: `width=600, height=600, initial-scale=1.0`. The 600-unit stage stays 600 by 600 in a 1440 by 900 desktop window.
+
+Shared supporting typography now uses `--text-support-size: max(18px, 1.125rem)`, including inherited text, captions, HEX, selection feedback, key glyphs, and ending metadata. The selected check compensates for card depth scaling so its rendered font size also stays at least 18px.
+
+`tests/display-qa.mjs` verifies actual DOM metadata and computed/rendered text sizes. Start, carousel, selection, edge selection, and ending pass at 18px minimum, and 36px under 200% text scaling. Text bounds, overlap, card containment, and desktop stage independence pass. Results: `docs/display-qa.json`. The extension itself was not modified or bypassed; these are independent browser assertions, not an automated rerun inside the user's extension session. Typecheck, 12 unit tests and production build pass. Current CSS bundle: 4.68KB (gzip 1.67KB).
